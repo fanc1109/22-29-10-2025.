@@ -31,9 +31,40 @@
                     <button onclick="cadastrar()">cadastrar</button>
 
 <script>
+    var token = "a474ca3ce592402f9b63b09b852505ef";
+         // Exemplo de requisição GET para listar pessoas
+        fetch("https://crudcrud.com/api/"+token+"/pessoas")
+        .then(response => response.json())
+        .then(data => botatabela(data) )
+        .catch(error => console.log(error));
 
- function cadastrar() {
-        var token = "";
+
+
+      function botatabela(pessoas){
+       console.log(pessoas);
+
+
+       var tabela = document.getElementById("tabelaAlunos").getElementsByTagName("tbody")[0];
+
+       pessoas.forEach(function(pessoa)  {
+           var linha = tabela.insertRow();
+
+           var celulanome = linha.insertCell(0);
+           var celulanascimento = linha.insertCell(1);
+           var celulatelefone = linha.insertCell(2);
+           var celulaendereco = linha.insertCell(3);
+           var celulaexcluir = linha.insertCell(4);
+
+            celulanome.innerHTML = pessoa.nome;
+            celulanascimento.innerHTML = pessoa.nascimento;
+            celulatelefone.innerHTML = pessoa.telefone;
+            celulaendereco.innerHTML = pessoa.endereco;
+            celulaexcluir.innerHTML = '<button onclick="excluir(\'' + pessoa._id + '\')">excluir</button>'
+      })};
+
+    
+    function cadastrar() {
+        var token = "a474ca3ce592402f9b63b09b852505ef";
           // Exemplo de requisição POST para adicionar uma nova pessoa
         fetch("https://crudcrud.com/api/"+token+"/pessoas", {
         // metodo de requisição (get, post, put, delete)
@@ -55,14 +86,22 @@
         .catch(error => console.error("Erro no POST:", error))
         .finally(() => {
             // redirecionar para a pagina inicial
-            setTimeout(window.location.href = "crudcrud.php", 2000);
+            setTimeout(window.location.href = "index.html", 2000);
+            
+        });
+    }
+   
+    function excluir(id){
+        fetch("https://crudcrud.com/api/"+token+"/pessoas/"+id, {
+            method: "DELETE"
+            })
+            .then(() => console.log("Pessoa deletado com sucesso"))
+            .catch(error => console.error("Erro no DELETE:", error))
+            .finally(() => {
+            // redirecionar para a pagina inicial
+            setTimeout(window.location.href = "index.html", 2000);
             
         });
     }
 
-var token = "";
-         // Exemplo de requisição GET para listar pessoas
-        fetch("https://crudcrud.com/api/"+token+"/pessoas")
-        .then(response => response.json())
-        .then(data => console.log(data) )
-        .catch(error => console.error("Erro no GET:", error));
+</script>
