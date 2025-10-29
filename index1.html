@@ -1,4 +1,5 @@
-<h3>Lista de Alunos</h3>
+ <a href="index2.html">Voltar</a>
+ <h3>Lista de Alunos</h3>  
 <table id="tabelaAlunos" border="1">
     <thead>
         <tr>
@@ -7,34 +8,18 @@
             <th>Telefone</th>
             <th>Endereço</th>
             <th>Excluir</th>
+            <th>Atualizar</th>
         </tr>
+        <tbody> 
+            <!-- Linhas preenchidas pelo JavaScript -->
+         </tbody> 
     </thead>
-    <tbody>
-        <!-- Linhas preenchidas pelo JavaScript -->
-    </tbody>
-</table>
-<hr>
-<h3>Adicionar Novo Aluno</h3>
-                    Nome: 
-                    <input type="text" id="nome" name="nome" value="">
-                    <br>
-                    Nascimento: 
-                    <input type="date" id="nascimento" name="nascimento" value="">
-                    <br>
-                    Telefone: 
-                    <input type="text" id="telefone" name="telefone" value="">
-                    <br>
-                    Endereço: 
-                    <input type="text" id="endereco" name="endereco" value="">
-                    <br>
-                    <input type="hidden" name="acao" value="inserir">
-                    <button onclick="cadastrar()">cadastrar</button>
-
-<script>
-    var token = "a474ca3ce592402f9b63b09b852505ef";
+    </table>
+    <script>
+   var token = "0e1304f33f4f48cf9a9b3b78426e28f1";
          // Exemplo de requisição GET para listar pessoas
-        fetch("https://crudcrud.com/api/"+token+"/pessoas")
-        .then(response => response.json())
+       fetch("https://crudcrud.com/api/"+token+"/pessoas")
+         .then(response => response.json())
         .then(data => botatabela(data) )
         .catch(error => console.log(error));
 
@@ -44,27 +29,30 @@
        console.log(pessoas);
 
 
-       var tabela = document.getElementById("tabelaAlunos").getElementsByTagName("tbody")[0];
+      var tabela = document.getElementById("tabelaAlunos").getElementsByTagName("tbody")[0];
 
        pessoas.forEach(function(pessoa)  {
            var linha = tabela.insertRow();
 
-           var celulanome = linha.insertCell(0);
-           var celulanascimento = linha.insertCell(1);
-           var celulatelefone = linha.insertCell(2);
-           var celulaendereco = linha.insertCell(3);
-           var celulaexcluir = linha.insertCell(4);
+            var celulanome = linha.insertCell(0);
+            var celulanascimento = linha.insertCell(1);
+            var celulatelefone = linha.insertCell(2);
+            var celulaendereco = linha.insertCell(3);
+            var celulaexcluir = linha.insertCell(4);
+            var celulaAtualizar = linha.insertCell(5);
+            
 
-            celulanome.innerHTML = pessoa.nome;
-            celulanascimento.innerHTML = pessoa.nascimento;
-            celulatelefone.innerHTML = pessoa.telefone;
-            celulaendereco.innerHTML = pessoa.endereco;
-            celulaexcluir.innerHTML = '<button onclick="excluir(\'' + pessoa._id + '\')">excluir</button>'
-      })};
-
-    
+             celulanome.innerHTML = pessoa.nome;
+             celulanascimento.innerHTML = pessoa.nascimento;
+             celulatelefone.innerHTML = pessoa.telefone;
+             celulaendereco.innerHTML = pessoa.endereco;
+             celulaexcluir.innerHTML = '<button onclick="excluir(\'' + pessoa._id + '\')">excluir</button>'
+             celulaAtualizar.innerHTML =   '<button onclick="atualizar(\'' + pessoa._id + '\',\''+pessoa.nome+'\',\''+pessoa.telefone+'\',\''+pessoa.endereco+'\',\''+pessoa.nascimento+'\')">Atualizar</button>';
+            
+       })};
+     
     function cadastrar() {
-        var token = "a474ca3ce592402f9b63b09b852505ef";
+        var token = "0e1304f33f4f48cf9a9b3b78426e28f1";
           // Exemplo de requisição POST para adicionar uma nova pessoa
         fetch("https://crudcrud.com/api/"+token+"/pessoas", {
         // metodo de requisição (get, post, put, delete)
@@ -90,8 +78,9 @@
             
         });
     }
-   
+
     function excluir(id){
+        token = "0e1304f33f4f48cf9a9b3b78426e28f1"
         fetch("https://crudcrud.com/api/"+token+"/pessoas/"+id, {
             method: "DELETE"
             })
@@ -103,5 +92,8 @@
             
         });
     }
+    function atualizar(id,nome,tel,end,data){
+            window.location.href = "atualizarPessoa.html?id="+id+"&nome="+nome+"&tel="+tel+"&end="+end+"&data="+data
+        }
 
-</script>
+    </script>
